@@ -24,10 +24,20 @@ public class NodeControl : MonoBehaviour
         if (validEdges.longitud == 0)
         {
             Debug.Log("No hay aristas salientes válidas desde el nodo actual.");
+            return null; // O manejar de otra manera si es necesario
         }
 
         int index = Random.Range(0, validEdges.longitud);
-        return validEdges.ObtenerNodoPorPosicion(index);
+        Edge selectedEdge = validEdges.ObtenerNodoPorPosicion(index);
+
+        // Asegúrate de que el nodo de destino no sea el mismo que el nodo actual
+        while (selectedEdge.NodeB == currentNode)
+        {
+            index = Random.Range(0, validEdges.longitud);
+            selectedEdge = validEdges.ObtenerNodoPorPosicion(index);
+        }
+
+        return selectedEdge;
     }
 }
 
