@@ -1,28 +1,33 @@
 using UnityEngine;
+
 public class NodeControl : MonoBehaviour
 {
-    private ListaSimpleEnlazada<Edge> adjacentEdges = new ListaSimpleEnlazada<Edge>();
+    private ListaSimpleEnlazada<Edge> outgoingEdges = new ListaSimpleEnlazada<Edge>(); // Aristas salientes
 
-    public void AddAdjacentEdge(Edge edge)
+    public void AddOutgoingEdge(Edge edge)
     {
-        adjacentEdges.InsertarNodoAlFinal(edge);
+        outgoingEdges.InsertarNodoAlFinal(edge);
     }
-    public Edge SelectRandomAdjacent(NodeControl currentNode)
+
+    public Edge SelectRandomOutgoing(NodeControl currentNode)
     {
-        Edge selectedEdge;
-        do
+        ListaSimpleEnlazada<Edge> validEdges = new ListaSimpleEnlazada<Edge>();
+        for (int i = 0; i < outgoingEdges.longitud; i++)
         {
-            int index = Random.Range(0, adjacentEdges.longitud);
-            selectedEdge = adjacentEdges.ObtenerNodoPorPosicion(index);
-        } while (selectedEdge.NodeA == currentNode && selectedEdge.NodeB == currentNode);
-        if (selectedEdge.NodeA == currentNode)
-        {
-            selectedEdge = new Edge(currentNode, selectedEdge.NodeB, selectedEdge.Weight);
+            Edge edge = outgoingEdges.ObtenerNodoPorPosicion(i);
+            if (edge.NodeA == currentNode)
+            {
+                validEdges.InsertarNodoAlFinal(edge);
+            }
         }
-        else if (selectedEdge.NodeB == currentNode)
+
+        if (validEdges.longitud == 0)
         {
-            selectedEdge = new Edge(selectedEdge.NodeA, currentNode, selectedEdge.Weight);
+            Debug.Log("No hay aristas salientes válidas desde el nodo actual.");
         }
-        return selectedEdge;
+
+        int index = Random.Range(0, validEdges.longitud);
+        return validEdges.ObtenerNodoPorPosicion(index);
     }
 }
+

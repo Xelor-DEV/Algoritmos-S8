@@ -45,8 +45,7 @@ public class GraphControl : MonoBehaviour
                     NodeControl node2 = allNodes.ObtenerNodoPorPosicion(int.Parse(currentNodeConections[j])).GetComponent<NodeControl>();
                     float weight = float.Parse(currentNodeConections[currentNodeConections.Length - 1]);
                     Edge edge = new Edge(node1, node2, weight);
-                    node1.AddAdjacentEdge(edge);
-                    node2.AddAdjacentEdge(edge);
+                    node1.AddOutgoingEdge(edge);
                 }
             }
         }
@@ -55,7 +54,7 @@ public class GraphControl : MonoBehaviour
     {
         int index = Random.Range(0, allNodes.longitud);
         NodeControl initialNode = allNodes.ObtenerNodoPorPosicion(index).GetComponent<NodeControl>();
-        Edge initialEdge = initialNode.SelectRandomAdjacent(initialNode);
+        Edge initialEdge = initialNode.SelectRandomOutgoing(initialNode);
         enemy.CurrentEdge = initialEdge;
     }
 

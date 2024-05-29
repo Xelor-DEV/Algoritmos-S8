@@ -41,7 +41,7 @@ public class EnemyControl : MonoBehaviour
                 }
                 else
                 {
-                    currentEdge = currentNode.SelectRandomAdjacent(currentNode);
+                    currentEdge = currentNode.SelectRandomOutgoing(currentNode);
                     NodeControl nextNode;
                     if (currentEdge.NodeA == currentNode)
                     {
@@ -62,7 +62,7 @@ public class EnemyControl : MonoBehaviour
         yield return new WaitForSeconds(restTime);
         energy = maxEnergy;
         NodeControl currentNode = currentEdge.NodeB;
-        currentEdge = currentNode.SelectRandomAdjacent(currentNode);
+        currentEdge = currentNode.SelectRandomOutgoing(currentNode);
         NodeControl nextNode;
         if (currentEdge.NodeA == currentNode)
         {
